@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t fjpu/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true fjpu/react-test npm test
+
+after_success:
+  - docker build -t fjpu/multi-client ./client
+  - docker build -t fjpu/multi-nginx ./nginx
+  - docker build -t fjpu/multi-server ./server
+  - docker build -t fjpu/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  # Push those images to docker hub
+  - docker push fjpu/multi-client
+  - docker push fjpu/multi-nginx
+  - docker push fjpu/multi-server
+  - docker push fjpu/multi-worker
