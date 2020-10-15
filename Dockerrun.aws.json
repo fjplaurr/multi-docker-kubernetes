@@ -1,0 +1,37 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "fjplaurr/multi-client",
+      "hostname": "client",
+      "essential": false
+    },
+    {
+      "name": "server", 
+      "image": "fjplaurr/multi-server",
+      "hostname": "api",
+      "essential": false
+    },
+    {
+      "name": "worker",
+      "image": "fjplaurr/multi-worker",
+      "essential": false
+    },
+    {
+      "name": "nginx",
+      "image": "fjplaurr/multi-nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": [
+        "client",
+        "server"
+      ]
+    }
+  ]
+}
