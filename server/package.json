@@ -7,7 +7,7 @@
     "nodemon": "1.18.3"
   },
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon --inspect-brk=0.0.0.0:9229",
     "start": "node index.js"
   }
 }
